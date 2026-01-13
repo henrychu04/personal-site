@@ -8,11 +8,11 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   return (
-    <div className="min-h-screen bg-black text-[#888] font-sans">
+    <div className="min-h-screen bg-black text-[#9ca3af] font-sans">
       <ScrollRestoration />
-      <div className="max-w-[600px] mx-auto px-4 py-12 sm:px-6 sm:py-16">
+      <main className="max-w-[600px] mx-auto px-4 py-12 sm:px-6 sm:py-16">
         <Outlet />
-      </div>
+      </main>
     </div>
   )
 }
