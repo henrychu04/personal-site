@@ -43,6 +43,7 @@ function Home() {
               <Link
                 to="/projects/$slug"
                 params={{ slug: project.slug }}
+                preload="intent"
                 className="hover:text-[#a855f7] transition-colors"
               >
                 {project.title} →
