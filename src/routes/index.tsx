@@ -35,7 +35,7 @@ function Home() {
 
       {/* Projects */}
       <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-[#555] mb-6">Projects</h2>
+        <h2 className="text-xs uppercase tracking-widest text-[#737373] mb-6">Projects</h2>
 
         {projects.map((project) => (
           <div key={project.slug} className="mb-8">
@@ -55,12 +55,12 @@ function Home() {
 
       {/* Experience */}
       <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-[#555] mb-6">Experience</h2>
+        <h2 className="text-xs uppercase tracking-widest text-[#737373] mb-6">Experience</h2>
 
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
             <span className="text-[15px] text-white">Software Engineer Strat</span>
-            <span className="text-xs text-[#555]">2022 — Now</span>
+            <span className="text-xs text-[#737373]">2022 — Now</span>
           </div>
           <p className="text-sm mb-2">Goldman Sachs</p>
           <p className="text-sm">Building a full-stack private institutional fund portfolio management and projections application. Data pipelines, React Query optimization, 80% test coverage.</p>
@@ -69,7 +69,7 @@ function Home() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
             <span className="text-[15px] text-white">Research Assistant</span>
-            <span className="text-xs text-[#555]">2021 — 2022</span>
+            <span className="text-xs text-[#737373]">2021 — 2022</span>
           </div>
           <p className="text-sm mb-2">Rutgers HackRSpace</p>
           <p className="text-sm">Deployed IaaS platform in Golang. Managed containers and NGINX reverse proxies.</p>
