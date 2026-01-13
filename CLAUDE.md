@@ -1,8 +1,35 @@
 # Claude Code Configuration
 
+> ⚠️ **MANDATORY RULES - READ BEFORE ANY ACTION** ⚠️
+>
+> **YOU MUST USE SERENA FOR ALL CODE OPERATIONS. THIS IS NON-NEGOTIABLE.**
+>
+> Before using `Edit`, `Read`, or `Grep` on code files, STOP and ask yourself:
+> - Am I editing code? → Use `mcp__serena__replace_symbol_body`
+> - Am I reading code? → Use `mcp__serena__find_symbol` with `include_body=True`
+> - Am I searching code? → Use `mcp__serena__find_symbol` or `mcp__serena__search_for_pattern`
+>
+> **The base tools (`Edit`, `Read`, `Grep`) are ONLY for non-code files (markdown, JSON, YAML, configs).**
+>
+> If you catch yourself reaching for a base tool on a `.ts`, `.tsx`, `.js`, `.py`, or other code file, STOP IMMEDIATELY and use Serena instead.
+
+---
+
 ## Tool Hierarchy: Prefer Enhanced Tools
 
 **CRITICAL:** Never use base Claude Code tools when equivalent functionality exists in Serena, TLDR, or Continuous-Claude. These enhanced tools provide better token efficiency, semantic understanding, and workflow integration.
+
+---
+
+## Pre-Action Checklist (Run This Mentally Before Every Edit)
+
+```
+□ Is this a code file? → MUST use Serena
+□ Did I find the symbol first? → mcp__serena__find_symbol
+□ Am I replacing a function/method? → mcp__serena__replace_symbol_body
+□ Am I adding new code? → mcp__serena__insert_after_symbol or insert_before_symbol
+□ Is Serena unavailable/erroring? → ONLY THEN fall back to Edit
+```
 
 ---
 
@@ -10,13 +37,15 @@
 
 | Base Claude Code Tool | NEVER Use For | USE INSTEAD |
 |----------------------|---------------|-------------|
-| `Grep` | Code pattern search | `tldr search`, `mcp__serena__search_for_pattern`, `mcp__serena__find_symbol` |
-| `Glob` | Finding files | `tldr tree`, `mcp__serena__find_file`, `mcp__serena__list_dir` |
-| `Read` | Reading code files | `mcp__serena__find_symbol` with `include_body=True`, `mcp__serena__get_symbols_overview` |
+| `Grep` | Code pattern search | **`tldr search`**, `tldr semantic search`, `mcp__serena__find_symbol` |
+| `Glob` | Finding files | **`tldr tree`**, `mcp__serena__find_file`, `mcp__serena__list_dir` |
+| `Read` | Reading code files | **`tldr context`**, **`tldr structure`**, `mcp__serena__find_symbol` with `include_body=True` |
 | `Edit` | Editing code | `mcp__serena__replace_symbol_body`, `mcp__serena__insert_after_symbol`, `mcp__serena__insert_before_symbol` |
-| `Task` with `Explore` | Codebase exploration | `tldr structure`, `tldr arch`, `mcp__serena__get_symbols_overview` |
+| `Task` with `Explore` | Codebase exploration | **`tldr structure`**, **`tldr arch`**, `mcp__serena__get_symbols_overview` |
 | `Task` for research | External research | Use `/research-external` skill or `oracle` agent |
 | Manual agent spawning | Complex workflows | Use workflow skills: `/fix`, `/review`, `/refactor` |
+
+> **Bold = prefer TLDR** for maximum token savings (~95% reduction)
 
 ---
 
@@ -118,7 +147,9 @@ mcp__serena__search_for_pattern(
 
 ---
 
-## TLDR: 5-Layer Code Analysis
+## TLDR: 5-Layer Code Analysis (v1.2.2)
+
+> **ALWAYS prefer TLDR over raw file reads.** TLDR provides ~95% token savings and structural understanding.
 
 ### The 5 Layers
 
@@ -129,6 +160,31 @@ mcp__serena__search_for_pattern(
 | L3: Control Flow | `tldr cfg` | Branches, loops, complexity |
 | L4: Data Flow | `tldr dfg` | How variables move through code |
 | L5: Program Slicing | `tldr slice` | What affects a specific line |
+
+### All Commands Reference
+
+| Command | Purpose |
+|---------|---------|
+| `tldr tree` | Show file tree |
+| `tldr structure` | Show code structure (codemaps) |
+| `tldr search` | Search files for pattern |
+| `tldr extract` | Extract full file info |
+| `tldr context` | Get relevant context for LLM |
+| `tldr cfg` | Control flow graph |
+| `tldr dfg` | Data flow graph |
+| `tldr slice` | Program slice |
+| `tldr calls` | Build cross-file call graph |
+| `tldr impact` | Find all callers (reverse call graph) |
+| `tldr dead` | Find unreachable (dead) code |
+| `tldr arch` | Detect architectural layers |
+| `tldr imports` | Parse imports from a source file |
+| `tldr importers` | Find all files that import a module |
+| `tldr change-impact` | Find tests affected by changed files |
+| `tldr diagnostics` | Get type and lint diagnostics |
+| `tldr warm` | Pre-build call graph cache |
+| `tldr semantic` | Semantic code search using embeddings |
+| `tldr daemon` | Daemon management subcommands |
+| `tldr doctor` | Check/install diagnostic tools |
 
 ### Structure & Architecture
 
@@ -199,7 +255,50 @@ tldr change-impact src/changed_file.py
 
 # Actually run affected tests
 tldr change-impact src/changed_file.py --run
+
+# Check/install diagnostic tools (pyright, ruff, etc)
+tldr doctor
 ```
+
+### Semantic Search (NEW)
+
+Natural language code search using embeddings.
+
+```bash
+# Build semantic index for project (first time)
+tldr semantic index .
+
+# Search semantically
+tldr semantic search "authentication flow" src/
+tldr semantic search "database connection pooling" --k 10
+```
+
+**First run downloads embedding model (1.3GB default).** Set `TLDR_AUTO_DOWNLOAD=1` to skip prompts or use `--model all-MiniLM-L6-v2` for smaller 80MB model.
+
+### Daemon & Performance (NEW)
+
+TLDR runs a per-project daemon for fast repeated queries.
+
+```bash
+# Start daemon explicitly
+tldr daemon start
+
+# Check status
+tldr daemon status
+
+# Stop daemon
+tldr daemon stop
+
+# Pre-build call graph cache for faster queries
+tldr warm src/
+```
+
+**Daemon specs:**
+- Socket: `/tmp/tldr-{hash}.sock` (hash from project path)
+- Auto-shutdown: 30 minutes idle
+- Memory: ~50-100MB base, +500MB-1GB with semantic search
+
+**Use `tldr warm` before large refactors** to pre-build the call graph cache.
 
 ---
 
@@ -228,7 +327,7 @@ cd $CLAUDE_PROJECT_DIR/opc && PYTHONPATH=. uv run python scripts/core/store_lear
 
 **Learning Types:** `ARCHITECTURAL_DECISION`, `WORKING_SOLUTION`, `CODEBASE_PATTERN`, `FAILED_APPROACH`, `ERROR_FIX`, `USER_PREFERENCE`, `OPEN_THREAD`
 
-### Key Workflow Skills
+### Key Workflow Skills (111 total)
 
 | Skill | Purpose | When to Use |
 |-------|---------|-------------|
@@ -242,6 +341,9 @@ cd $CLAUDE_PROJECT_DIR/opc && PYTHONPATH=. uv run python scripts/core/store_lear
 | `/release` | Security + E2E + changelog + docs | Release preparation |
 | `/tdd` | Plan + tests first + implement | Test-driven development |
 | `/premortem` | Risk analysis | Before major changes |
+| `/tldr-stats` | Token usage, costs, TLDR savings | See how much TLDR is saving |
+| `/compound-learnings` | Transform learnings into skills | After productive sessions |
+| `/help` | Interactive workspace discovery | Learn available tools/workflows |
 
 ### 48 Specialized Agents
 
@@ -379,35 +481,48 @@ Need to find a symbol (function, class, method)?
   → mcp__serena__find_symbol(name_path="symbol_name", include_body=True)
 
 Need to find files by pattern?
+  → tldr tree src/ --ext .py  (PREFERRED - token efficient)
   → mcp__serena__find_file(file_mask="*.py", relative_path="src/")
-  → tldr tree src/ --ext .py
 
 Need to search for text patterns?
+  → tldr search "pattern" src/  (PREFERRED)
   → mcp__serena__search_for_pattern(substring_pattern="pattern", relative_path="src/")
-  → tldr search "pattern" src/
 
-Need structural/semantic search?
-  → tldr search "error handling" src/
+Need natural language/conceptual search?
+  → tldr semantic search "authentication flow" src/
+  → tldr semantic search "error handling patterns" src/
+
+Need to understand project architecture?
+  → tldr arch src/
+  → tldr structure src/ --lang typescript
 ```
 
 ### Reading Code
 
 ```
 Need to understand a file's structure?
+  → tldr structure src/file.py --lang python  (PREFERRED - shows all symbols)
   → mcp__serena__get_symbols_overview(relative_path="src/file.py", depth=1)
 
 Need to read a specific function/class?
+  → tldr context function_name --project src/  (PREFERRED - LLM-ready)
   → mcp__serena__find_symbol(name_path="ClassName/method_name", include_body=True)
 
 Need to see who references a symbol?
+  → tldr impact function_name src/  (PREFERRED - shows full call tree)
   → mcp__serena__find_referencing_symbols(name_path="function_name", relative_path="src/file.py")
 
 Need to understand call relationships?
-  → tldr calls src/
-  → tldr impact function_name src/
+  → tldr calls src/  (cross-file call graph)
+  → tldr impact function_name src/  (who calls this?)
 
 Need LLM-ready context for a function?
   → tldr context function_name --project src/ --depth 2
+
+Need to understand control/data flow?
+  → tldr cfg src/file.py function_name  (control flow)
+  → tldr dfg src/file.py function_name  (data flow)
+  → tldr slice src/file.py function_name 42  (what affects line 42?)
 ```
 
 ### Editing Code
@@ -480,23 +595,29 @@ External research needed?
    cd $CLAUDE_PROJECT_DIR/opc && PYTHONPATH=. uv run python scripts/core/recall_learnings.py --query "<task keywords>" --k 3 --text-only
    ```
 
-3. **Understand structure:**
+3. **Understand structure with TLDR (ALWAYS DO THIS FIRST):**
    ```bash
-   tldr structure <path> --lang <language>
-   tldr arch <path>
+   tldr structure <path> --lang <language>   # See all functions/classes
+   tldr arch <path>                          # Understand layers
+   tldr calls <path>                         # See dependencies
    ```
 
-4. **Find relevant symbols:**
+4. **Pre-warm cache for large projects:**
+   ```bash
+   tldr warm <path>                          # Speeds up subsequent queries
+   ```
+
+5. **Find relevant symbols:**
    ```
    mcp__serena__find_symbol(name_path="relevant_symbol", include_body=False, depth=1)
    ```
 
-5. **Check impact before changes:**
+6. **Check impact before changes:**
    ```bash
    tldr impact <function_to_change> <path> --depth 3
    ```
 
-6. **Reflect on gathered information:**
+7. **Reflect on gathered information:**
    ```
    mcp__serena__think_about_collected_information()
    ```
@@ -653,6 +774,10 @@ Use base Claude Code tools ONLY when:
 | Type check | `tldr diagnostics src/` |
 | Affected tests | `tldr change-impact file.py` |
 | LLM context | `tldr context func --project src/` |
+| Semantic search | `tldr semantic search "query" src/` |
+| Pre-warm cache | `tldr warm src/` |
+| Daemon status | `tldr daemon status` |
+| Check tools | `tldr doctor` |
 
 ### Continuous-Claude (Workflow)
 | Task | Command |
@@ -667,6 +792,8 @@ Use base Claude Code tools ONLY when:
 | Explore | `/explore` |
 | Security | `/security` |
 | Create handoff | `/create_handoff` |
+| Token stats | `/tldr-stats` |
+| Compound learnings | `/compound-learnings` |
 
 ---
 
@@ -675,11 +802,11 @@ Use base Claude Code tools ONLY when:
 **Priority order for all code operations:**
 
 1. **Serena** - Semantic, LSP-based, precise symbol operations
-2. **TLDR** - Structural analysis, graphs, impact, flow analysis
+2. **TLDR** - Structural analysis, graphs, impact, flow analysis, semantic search
 3. **Continuous-Claude** - Memory, skills, workflows, agent orchestration
 4. **Base Claude Code** - ONLY for non-code files or when above unavailable
 
-**Token savings:** Using this hierarchy provides ~95% token reduction compared to reading raw files.
+**Token savings:** Using this hierarchy provides ~95% token reduction compared to reading raw files. Use `/tldr-stats` to see actual savings.
 
 **Key principles:**
 - Always check memory before starting work
@@ -687,3 +814,15 @@ Use base Claude Code tools ONLY when:
 - Delegate to agents for complex multi-step tasks
 - Store significant learnings for future sessions
 - Use workflow skills instead of manual multi-step processes
+- **ALWAYS use `tldr` before reading raw files**
+- Pre-warm with `tldr warm` before large refactors
+- Use `tldr semantic search` for natural language code queries
+
+**TLDR First Rule:** Before using `Read` on any code file, ask: "Can TLDR give me this information with fewer tokens?" The answer is almost always yes.
+
+| Instead of... | Use... |
+|---------------|--------|
+| `Read` entire file | `tldr structure`, `tldr context`, or Serena symbols |
+| `Grep` for patterns | `tldr search` or `tldr semantic search` |
+| Reading call chains manually | `tldr calls`, `tldr impact` |
+| Reading to understand flow | `tldr cfg`, `tldr dfg`, `tldr slice` |
