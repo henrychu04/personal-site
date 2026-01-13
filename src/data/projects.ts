@@ -27,7 +27,7 @@ export const projects: Project[] = [
     longDescription:
       "Tracks SSENSE prices and emails you when prices drop or your size comes back in stock. TanStack Start + tRPC for full-stack type safety, dual Postgres/D1 database setup, React 19 with the new compiler, and Recharts for price history graphs.",
     problem:
-      "I got tired of manually checking SSENSE for sales. Wanted something that would notify me when prices dropped.",
+      "I got tired of manually checking SSENSE for sales. Needed something that would notify me when prices dropped.",
     solution:
       "The interesting part was making the scraper resilient. Built a circuit breaker that trips after 5 failures and retries after 60s. Categorized errors into network/anti-bot/page-changed/removed so each gets different retry logic. Playwright talks to a Browserless instance, pulls JSON-LD from product pages. Cloudflare Queues handles job scheduling with a DLQ for failures. Redis does distributed locking so we don't scrape the same item twice. Rate limiting is sliding window - 10 writes/min, 60 reads/min per user. Scraping doesn't scale economically though - residential proxies, Browserless, CF Workers, Neon, Redis adds up to $150-350/mo for 1000 items. Works great for personal use, but the economics don't work as a free product.",
     tech: [
@@ -91,9 +91,9 @@ export const projects: Project[] = [
     description:
       "Real-time chat running entirely on Cloudflare's edge. Durable Objects manage WebSocket connections per room, D1 persists messages, tRPC keeps the whole stack type-safe.",
     longDescription:
-      "Wanted to build something with Durable Objects beyond the basic counter tutorial. Each chat room is its own DO instance holding WebSocket connections in memory. React Router v7 handles SSR, tRPC gives end-to-end types from D1 queries to React components. Better Auth manages sessions with automatic JWT refresh.",
+      "Built to explore Durable Objects beyond the basic counter tutorial. Each chat room is its own DO instance holding WebSocket connections in memory. React Router v7 handles SSR, tRPC gives end-to-end types from D1 queries to React components. Better Auth manages sessions with automatic JWT refresh.",
     problem:
-      "Wanted hands-on experience with Durable Objects and WebSockets. Most tutorials stop at incrementing a counter - I wanted to see how they handle real concurrent state.",
+      "Most Durable Objects tutorials stop at incrementing a counter. I needed to see how they handle real concurrent state like WebSocket connections and message broadcasting.",
     solution:
       "Each room is a Durable Object that manages its own WebSocket connections and broadcasts messages. The interesting part was handling hibernation - DOs don't keep connections in memory during idle, so they wake on each message. Used tRPC so API responses are typed without maintaining separate type definitions. Drizzle generates type-safe D1 queries. shadcn/ui for components since I didn't want to build a design system from scratch. Durable Objects turned out simpler than expected - just classes with automatic persistence. The gotcha is WebSocket hibernation and understanding when your DO instance actually runs.",
     tech: [

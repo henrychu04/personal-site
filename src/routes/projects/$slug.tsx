@@ -58,7 +58,7 @@ function ProjectDetail() {
       {project.architecture && (
         <section className="mb-8">
           <h2 className="text-xs uppercase tracking-widest text-[#555] mb-3">Architecture</h2>
-          <pre className="text-xs leading-relaxed overflow-x-auto bg-white/[0.02] p-4 rounded border border-white/5">
+          <pre className="text-[10px] sm:text-xs leading-relaxed overflow-x-auto bg-white/[0.02] p-3 sm:p-4 rounded border border-white/5">
             {project.architecture.trim()}
           </pre>
         </section>
