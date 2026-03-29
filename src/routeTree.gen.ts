@@ -21,7 +21,9 @@ const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   id: "/projects/$slug",
   path: "/projects/$slug",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any).lazy(() =>
+  import("./routes/projects/$slug.lazy").then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
