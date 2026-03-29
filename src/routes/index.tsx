@@ -13,7 +13,7 @@ function Home() {
       <header className="mb-12">
         <h1 className="text-xl font-medium text-white mb-4">Henry Chu</h1>
         <p className="leading-relaxed">
-          Software engineer building data pipelines at Goldman Sachs. Obsessed with TypeScript, edge computing, and making things fast.
+          Software engineer at Goldman Sachs building risk analytics for private markets. Obsessed with TypeScript, edge computing, and making things fast.
         </p>
       </header>
 
@@ -64,7 +64,7 @@ function Home() {
             <span className="text-xs text-[#787878]">2022 — Now</span>
           </div>
           <p className="text-sm mb-2">Goldman Sachs</p>
-          <p className="text-sm">Building a full-stack private institutional fund portfolio management and projections application. Data pipelines, React Query optimization, 80% test coverage.</p>
+          <p className="text-sm">Architected and own a risk analytics platform used across Goldman's private asset classes — modeling projected fund returns, running scenario analyses, and tracking performance drivers. Led a Kotlin/Spring Boot API performance overhaul that cut endpoint latency by ~60%, introduced multi-layer caching, and built test coverage from 0% to 80%. Lead 2 contractors and mentor 5+ engineers as sole code reviewer for the team.</p>
         </div>
 
         <div className="mb-8">
