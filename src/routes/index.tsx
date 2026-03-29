@@ -61,16 +61,16 @@ function Home() {
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
             <span className="text-[15px] text-white">Software Engineer Strat</span>
-            <span className="text-xs text-[#787878]">2022 — Now</span>
+            <span className="text-xs text-[#787878]">2022 - Now</span>
           </div>
           <p className="text-sm mb-2">Goldman Sachs</p>
-          <p className="text-sm">Architected and own a risk analytics platform used across Goldman's private asset classes — modeling projected fund returns, running scenario analyses, and tracking performance drivers. Led a Kotlin/Spring Boot API performance overhaul that cut endpoint latency by ~60%, introduced multi-layer caching, and built test coverage from 0% to 80%. Lead 2 contractors and mentor 5+ engineers as sole code reviewer for the team.</p>
+          <p className="text-sm">Architected and own a risk analytics platform used across Goldman's private asset classes, modeling projected fund returns, running scenario analyses, and tracking performance drivers. Led a Kotlin/Spring Boot API performance overhaul that cut endpoint latency by ~60%, introduced multi-layer caching, and built test coverage from 0% to 80%. Lead 2 contractors and mentor 5+ engineers as sole code reviewer for the team.</p>
         </div>
 
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
             <span className="text-[15px] text-white">Research Assistant</span>
-            <span className="text-xs text-[#787878]">2021 — 2022</span>
+            <span className="text-xs text-[#787878]">2021 - 2022</span>
           </div>
           <p className="text-sm mb-2">Rutgers HackRSpace</p>
           <p className="text-sm">Deployed IaaS platform in Golang. Managed containers and NGINX reverse proxies.</p>
