@@ -20,6 +20,46 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "fieldnote",
+    title: "Fieldnote",
+    description:
+      "A cross-device workspace for reading, editing, and chatting with files in private GitHub repositories, with Markdown previews, structured CSV tools, and automatic version history.",
+    longDescription:
+      "A focused workspace for the useful files inside private GitHub repositories. Fieldnote feels native on a phone while expanding into a three-pane workspace on desktop. It replaces the normal Git workflow with a file browser, rich Markdown and CSV tools, automatic history, and repository-aware Codex conversations that can research questions and make precise updates across a workspace.",
+    problem:
+      "A private repository is a great place to keep research, notes, and structured personal data, but GitHub's interface is optimized for software development. Reading and editing those files on a phone is cumbersome, and using an AI assistant safely requires careful credential isolation, versioning, and conflict handling.",
+    solution:
+      "Fieldnote presents each repository as a simple workspace with file navigation, preview, edit, and split views. Markdown and plain text render cleanly, CSV files get structured tools, and every save creates version history automatically. Repository-aware conversations can answer questions or update multiple files while keeping unrelated content untouched.\n\nThe browser talks to a public TanStack Start worker, which reaches a privileged core worker through a private Cloudflare service binding. The browser never receives GitHub, database, sandbox, or model-provider credentials. Agent work runs in isolated Modal sandboxes, while durable workflows coordinate long-running turns. Successful edits become commits, stale concurrent changes are resolved before retrying, and Neon stores conversation metadata without storing repository file contents or patches.",
+    tech: [
+      "TypeScript",
+      "React 19",
+      "TanStack Start",
+      "Effect",
+      "Cloudflare Workers",
+      "Cloudflare Workflows",
+      "Neon Postgres",
+      "Drizzle ORM",
+      "GitHub App",
+      "Codex",
+      "Modal",
+      "Clerk",
+    ],
+    demo: "https://fieldnote.hchu.dev/",
+    architecture: `
+┌───────────────┐  ┌───────────────┐  ┌───────────────┐
+│Phone + desktop│─▶│ TanStack Start│─▶│  Core worker  │
+│   workspace   │  │  web worker   │  │    Effect     │
+└───────────────┘  └───────────────┘  └───────┬───────┘
+                                              │
+        ┌──────────────────┬──────────────────┘
+        ▼                  ▼                  ▼
+┌───────────────┐  ┌───────────────┐  ┌───────────────┐
+│  GitHub App   │  │     Neon      │  │     Modal     │
+│  Files + Git  │  │ Chat metadata │  │ Codex sandbox │
+└───────────────┘  └───────────────┘  └───────────────┘
+`,
+  },
+  {
     slug: "rl-trading",
     title: "BTC Trading Agent",
     description:
