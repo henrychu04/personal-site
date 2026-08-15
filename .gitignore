@@ -23,6 +23,9 @@ Thumbs.db
 # Vite
 *.local
 
+# Cloudflare local state
+.wrangler/
+
 # TypeScript
 *.tsbuildinfo
 

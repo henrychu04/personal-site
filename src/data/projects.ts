@@ -12,6 +12,8 @@ export interface Project {
   problem: string
   solution: string
   tech: string[]
+  status?: string
+  takeaways?: string[]
   github?: string
   demo?: string
   architecture?: string // ASCII diagram
@@ -45,6 +47,10 @@ export const projects: Project[] = [
       "Clerk",
     ],
     demo: "https://fieldnote.hchu.dev/",
+    takeaways: [
+      "A public web worker and private core worker keep repository and provider credentials out of the browser.",
+      "Automatic commits and stale-change handling preserve version history without storing repository files or patches in Neon.",
+    ],
     architecture: `
 ┌───────────────┐  ┌───────────────┐  ┌───────────────┐
 │Phone + desktop│─▶│ TanStack Start│─▶│  Core worker  │
@@ -62,6 +68,7 @@ export const projects: Project[] = [
   {
     slug: "rl-trading",
     title: "BTC Trading Agent",
+    status: "Paper trading",
     description:
       "Autonomous BTC research and paper-trading system on Hyperliquid. Autoresearch loops generate strategies, walk-forward backtesting validates them, and champion/challenger promotion gates control what trades.",
     longDescription:
@@ -78,6 +85,10 @@ export const projects: Project[] = [
       "Parquet",
       "Claude Code",
       "Codex",
+    ],
+    takeaways: [
+      "Treat every discovered edge as temporary and default to flat when conditions degrade.",
+      "Require walk-forward consistency and shadow trading before a challenger can become the champion.",
     ],
     architecture: `
 ┌──────────────┐     ┌───────────────┐     ┌──────────────┐
@@ -103,6 +114,7 @@ export const projects: Project[] = [
   {
     slug: "a2a-hub",
     title: "A2A Hub",
+    status: "Shelved",
     description:
       "Registry and management platform for Google's A2A protocol agents. Validate, register, monitor, and monetize agents. Think npm meets Uptime Robot for autonomous agents.",
     longDescription:
@@ -124,6 +136,10 @@ export const projects: Project[] = [
       "Tailwind CSS 4",
     ],
     github: "https://github.com/henrychu04/a2a-hub",
+    takeaways: [
+      "Trust requires more than registration: endpoint health, immutable card history, and ownership verification all matter.",
+      "Open payment protocols made platform-mediated payments unnecessary, so shelving the marketplace was the right product decision.",
+    ],
     architecture: `
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
 │  React 19 + │────▶│  CF Workers  │────▶│    Neon     │
@@ -149,6 +165,7 @@ export const projects: Project[] = [
   {
     slug: "hivemind",
     title: "Hivemind",
+    status: "Discontinued",
     description:
       "Collective intelligence for AI coding agents. A shared knowledge base where agents post problems and solutions. When one agent solves a problem, every agent benefits.",
     longDescription:
@@ -168,6 +185,10 @@ export const projects: Project[] = [
       "pnpm monorepo",
     ],
     github: "https://github.com/henrychu04/hivemind",
+    takeaways: [
+      "Automatic interception made shared solutions available before agents repeated the same debugging work.",
+      "The error surface across languages, frameworks, tools, and environments was too broad for reliably reusable answers.",
+    ],
     architecture: `
 ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
 │  Claude Code │     │    Codex     │     │  Windsurf /  │
@@ -191,6 +212,7 @@ export const projects: Project[] = [
   {
     slug: "price-tracker",
     title: "Price Tracker",
+    status: "Personal use",
     description:
       "Full-stack SSENSE price tracker on Cloudflare's edge with circuit breaker patterns, Queues with DLQ, Redis distributed locking, and tRPC end-to-end types.",
     longDescription:
@@ -215,6 +237,10 @@ export const projects: Project[] = [
       "Vitest",
     ],
     github: "https://github.com/henrychu04/price-tracker",
+    takeaways: [
+      "Categorizing scraper failures enabled targeted retries instead of treating every failure the same way.",
+      "At 1,000 tracked items, infrastructure costs made a free product economically unworkable despite a sound technical design.",
+    ],
     architecture: `
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
 │   React +   │────▶│  CF Workers  │────▶│    Neon     │
@@ -278,6 +304,10 @@ export const projects: Project[] = [
       "shadcn/ui",
     ],
     github: "https://github.com/henrychu04/chatting",
+    takeaways: [
+      "A Durable Object per room made concurrent WebSocket state easier to reason about.",
+      "WebSocket hibernation and understanding when an object is running were the primary operational gotchas.",
+    ],
     architecture: `
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
 │  React +    │────▶│  CF Workers  │────▶│     D1      │
