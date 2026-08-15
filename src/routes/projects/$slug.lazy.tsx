@@ -24,9 +24,7 @@ function ProjectDetail() {
 
       <header className="mb-8">
         <h1 className="text-2xl font-medium text-white">{project.title}</h1>
-        <p className="mt-2 mb-3 text-xs text-[#8b8b8b]">
-          Side project{project.status ? ` · ${project.status}` : ""}
-        </p>
+        <p className="mt-2 mb-3 text-xs text-[#8b8b8b]">Side project</p>
         <p className="leading-relaxed">{project.longDescription}</p>
       </header>
 

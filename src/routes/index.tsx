@@ -48,19 +48,16 @@ function Home() {
 
         {projects.map((project) => (
           <article key={project.slug} className="mb-9">
-            <div className="flex flex-wrap items-baseline gap-x-3">
-              <h3 className="text-base text-white">
-                <Link
-                  to="/projects/$slug"
-                  params={{ slug: project.slug }}
-                  preload="intent"
-                  className="hover:text-[#c084fc] transition-colors inline-flex min-h-11 items-center"
-                >
-                  {project.title} →
-                </Link>
-              </h3>
-              {project.status && <span className="text-xs text-[#8b8b8b]">{project.status}</span>}
-            </div>
+            <h3 className="text-base text-white">
+              <Link
+                to="/projects/$slug"
+                params={{ slug: project.slug }}
+                preload="intent"
+                className="hover:text-[#c084fc] transition-colors inline-flex min-h-11 items-center"
+              >
+                {project.title} →
+              </Link>
+            </h3>
             <p className="text-sm">{project.description}</p>
             <p className="mt-2 text-xs text-[#8b8b8b]">{project.tech.slice(0, 4).join(" · ")}</p>
           </article>

@@ -17,7 +17,7 @@ bun run check
 
 ## Editing content
 
-Side-project content lives in `src/data/projects.ts`. Every project requires a unique URL-safe slug, summaries, problem and solution copy, at least one technology, and at least two takeaways. Optional lifecycle status, repository, demo, architecture, and table fields render only when present. Professional work remains separate in the homepage Experience section.
+Side-project content lives in `src/data/projects.ts`. Every project requires a unique URL-safe slug, summaries, problem and solution copy, at least one technology, and at least two takeaways. Optional repository, demo, architecture, and table fields render only when present. Professional work remains separate in the homepage Experience section.
 
 Paragraphs in a solution are separated with a blank line. The build validates the data and creates one HTML entry point per project so direct URLs receive project-specific metadata.
 
