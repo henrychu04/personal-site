@@ -28,6 +28,17 @@ function ProjectDetail() {
         </a>
       )}
 
+      {project.demo && (
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm hover:text-white transition-colors mb-8 inline-flex items-center gap-1.5"
+        >
+          Live site ↗
+        </a>
+      )}
+
       <section className="mb-8">
         <p className="leading-relaxed">{project.longDescription}</p>
       </section>
